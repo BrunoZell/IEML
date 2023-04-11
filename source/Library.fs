@@ -33,6 +33,43 @@ type Word =
 
 type Paradigm = interface end // Todo
 
+// ### Phrases ###
+
+type NounInflection = NounInflection of Word
+type VerbInflection = VerbInflection of Word
+
+type NounPhrase = {
+    Inflections: NounInflection Set
+    Concept: Word
+}
+
+type VerbPhrase = {
+    Inflections: VerbInflection Set
+    Concept: Word
+}
+
+type Phrase = Accent * PhraseRoot * PhraseInteractant * PhraseInitiator * PhraseInteractant * PhraseRecipient
+and Accent = Root | Initiator | Interactant | Recipient | Cause | Time | Place | Intention | Manner
+and PhraseRoot = 
+    | NounPhrase of NounPhrase
+    | VerbPhrase of VerbPhrase
+and WordOrPhrase = 
+    | Word of Word
+    | Phrase of Phrase
+and PhraseInitiator = {
+    Inflections: NounInflection Set
+    Concept: WordOrPhrase
+}
+and PhraseInteractant = {
+    Inflections: NounInflection Set
+    Concept: WordOrPhrase
+}
+and PhraseRecipient = {
+    Inflections: NounInflection Set
+    Concept: WordOrPhrase
+}
+// Todo: Causality, Time, Place, Intention, Manner
+
 // ### Declarations ###
 
 /// @rootparadigm 
@@ -65,12 +102,17 @@ type JunctionDeclaration = {
     Node: Word
 }
 
+/// @node
+type NodeDeclaration = {
+    Phrase: Phrase
+}
+
 type Declarations =
     | RootParadigm of RootParadigmDeclaration
     | Inflection of InflectionDeclaration
     | Auxilary of AuxilaryDeclaration
     | Junction of JunctionDeclaration
-    | Node
+    | Node of NodeDeclaration
     | Paranode
     | Link
     | Function
