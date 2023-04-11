@@ -1,6 +1,10 @@
 ﻿module IEML
 
+// ### Primitives ###
+
 type Primitive = E | U | A | S | B | T
+
+// ### Words ###
 
 type Word<'PreviousLayerWord> = {
     Substance: 'PreviousLayerWord
@@ -24,3 +28,49 @@ type Word =
     | L4 of L4Word
     | L5 of L5Word
     | L6 of L6Word
+
+// ### Paradigms ###
+
+type Paradigm = interface end // Todo
+
+// ### Declarations ###
+
+/// @rootparadigm 
+type RootParadigmDeclaration = {
+    Type: RootParadigmType
+    Domain: Paradigm
+}
+and RootParadigmType =
+    | Category
+    | Inflection
+    | Auxilary
+    | Junction
+
+/// @inflection
+type InflectionDeclaration = {
+    Class: InflectionDeclarationClass
+    Node: Word
+}
+and InflectionDeclarationClass = Verb | Noun
+
+/// @auxilary
+type AuxilaryDeclaration = {
+    Role: AuxilaryDeclarationRole
+    Node: Word
+}
+and AuxilaryDeclarationRole = Causation | Time | Place | Intention | Manner
+
+/// @junction
+type JunctionDeclaration = {
+    Node: Word
+}
+
+type Declarations =
+    | RootParadigm of RootParadigmDeclaration
+    | Inflection of InflectionDeclaration
+    | Auxilary of AuxilaryDeclaration
+    | Junction of JunctionDeclaration
+    | Node
+    | Paranode
+    | Link
+    | Function
