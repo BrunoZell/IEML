@@ -80,7 +80,48 @@ and QualityRole = {
     Referent: string option
 }
 
+// ### Dictionary ###
+
+// As interpreted from a set of declarations
+
+type Dictionary = {
+    /// Set of all @inflection declarations
+    Inflections: InflectionSet
+
+    /// Set of all @auxilary declarations
+    Auxilaries: AuxilarySet
+
+    /// Set of all @junction declarations
+    /// Set of all @rootparadigm declarations
+    /// Set of all @node declarations
+}
+and InflectionSet = {
+    /// All @inflection declarations with 'class: verb', only to be used with ~verb
+    Verbs: Word Set
+    
+    /// All @inflection declarations with 'class: noun', only to be used with ~noun
+    Nouns: Word Set
+}
+and AuxilarySet = {
+    /// All @auxilary declarations with 'role: 4', only to be used in role 4
+    Causality: Word Set
+    
+    /// All @auxilary declarations with 'role: 5', only to be used in role 5
+    Time: Word Set
+    
+    /// All @auxilary declarations with 'role: 6', only to be used in role 6
+    Place: Word Set
+    
+    /// All @auxilary declarations with 'role: 7', only to be used in role 7
+    Intention: Word Set
+    
+    /// All @auxilary declarations with 'role: 8', only to be used in role 8
+    Manner: Word Set
+}
+
 // ### Declarations ###
+
+// As read from a valid IEML text file
 
 /// @rootparadigm 
 type RootParadigmDeclaration = {
