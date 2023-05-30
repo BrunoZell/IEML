@@ -93,8 +93,13 @@ type Dictionary = {
     Auxilaries: AuxilarySet
 
     /// Set of all @junction declarations
-    /// Set of all @rootparadigm declarations
+    Junctions: Word Set
+    
     /// Set of all @node declarations
+    /// (the user is not allowed to create new words)
+    Words: Word Set
+    
+    /// Todo: Do we need a set of all @rootparadigm declarations too or is that irrelevant?
 }
 and InflectionSet = {
     /// All @inflection declarations with 'class: verb', only to be used with ~verb
@@ -124,11 +129,11 @@ and AuxilarySet = {
 
 // As read from a valid IEML text file
 
-/// Describes paradigm literals in the form of '"A:.m.O:M:.-".'
-type ParadigmLiteral = ParadigmSelector of string
-
 /// Describes word literals in the form of '"A:.m.y.-".'
 type WordLiteral = WordSelector of string
+
+/// Describes paradigm literals in the form of '"A:.m.O:M:.-".' or '"E:.+O:O:.d.a.-".'
+type ParadigmLiteral = ParadigmSelector of string
 
 /// Describes phrase literals in the form of '(0 ~noun #"E:").'
 type PhraseLiteral = PhraseLiteral of string
@@ -168,12 +173,25 @@ type NodeDeclaration = {
     Phrase: PhraseLiteral
 }
 
-type Declarations =
+// ### Aggregated Dictionary declaration ###
+
+type DictionaryDeclaration = 
+    | DictionaryDeclaration of DictionaryDeclarations Set
+and DictionaryDeclarations =
     | RootParadigm of RootParadigmDeclaration
     | Inflection of InflectionDeclaration
     | Auxilary of AuxilaryDeclaration
     | Junction of JunctionDeclaration
     | Node of NodeDeclaration
-    | Paranode
-    | Link
     | Function
+    | Link
+
+// ### Aggregated Ontology declaration ###
+
+type OntologyDeclaration = 
+    | OntologyDeclaration of OntologyDeclarations Set
+and OntologyDeclarations =
+    | Node of NodeDeclaration
+    | Paranode
+    | Function
+    | Link
