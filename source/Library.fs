@@ -85,6 +85,7 @@ and QualityRole = {
 
 // As interpreted from a set of declarations
 
+/// States all dictionary declarations that influence the validity of a phrase
 type Dictionary = {
     /// Set of all @inflection declarations
     Inflections: InflectionSet
@@ -100,6 +101,7 @@ type Dictionary = {
     Words: Word Set
     
     /// Todo: Do we need a set of all @rootparadigm declarations too or is that irrelevant?
+    /// = Are only words defined in @inflection, @auxilary and @junction allowed in a phrase, or is it being contained in a @rootparadigm enough?
 }
 and InflectionSet = {
     /// All @inflection declarations with 'class: verb', only to be used with ~verb
