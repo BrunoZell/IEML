@@ -134,6 +134,9 @@ and AuxilarySet = {
     Manner: Word Set
 }
 
+let validate : Dictionary -> Phrase -> bool =
+    failwith "Not implemented"
+
 // ### Ontology ###
 
 // As interpreted from a set of declarations
