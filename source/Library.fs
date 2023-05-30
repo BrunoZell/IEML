@@ -35,40 +35,50 @@ type Paradigm = interface end // Todo
 
 // ### Phrases ###
 
-type NounInflection = NounInflection of Word
-type VerbInflection = VerbInflection of Word
+// Todo: Add validation to only allow inflections for either verbal or nominal as defined by the dictionary.
+// https://intlekt.io/paradigms-of-inflections/
 
-type NounPhrase = {
-    Inflections: NounInflection Set
-    Concept: Word
-}
-
-type VerbPhrase = {
-    Inflections: VerbInflection Set
-    Concept: Word
-}
-
-type Phrase = Accent * PhraseRoot * PhraseInteractant * PhraseInitiator * PhraseInteractant * PhraseRecipient
-and Accent = Root | Initiator | Interactant | Recipient | Cause | Time | Place | Intention | Manner
-and PhraseRoot = 
-    | NounPhrase of NounPhrase
-    | VerbPhrase of VerbPhrase
-and WordOrPhrase = 
+/// Represented by full words in the dictionary or by subordinate sentences – are preceded by a hash #.
+type Concept = 
     | Word of Word
     | Phrase of Phrase
-and PhraseInitiator = {
-    Inflections: NounInflection Set
-    Concept: WordOrPhrase
+
+and Phrase = {
+    Accent: SemanticAccent
+    Root: RootRole
+    Initiator: ActorRole
+    Interactant: ActorRole
+    Recipient: ActorRole
+    Cause: QualityRole
+    Time: QualityRole
+    Place: QualityRole
+    Intentions: QualityRole
+    Manner: QualityRole
 }
-and PhraseInteractant = {
-    Inflections: NounInflection Set
-    Concept: WordOrPhrase
+
+and SemanticAccent = Root | Initiator | Interactant | Recipient | Cause | Time | Place | Intention | Manner
+
+/// For phrase role: 0 root
+and RootRole = {
+    Concept: Concept
+    Inflections: Word Set
+    Referent: string option
 }
-and PhraseRecipient = {
-    Inflections: NounInflection Set
-    Concept: WordOrPhrase
+
+/// For phrase roles: 1 initiator, 2 interactant, 3 recipient
+and ActorRole = {
+    Concept: Concept
+    Inflections: Word Set
+    Referent: string option
 }
-// Todo: Causality, Time, Place, Intention, Manner
+
+/// For phrase roles: 4 cause, 5 time, 6 place, 7 intention, 8 manner
+and QualityRole = {
+    Concept: Concept
+    Inflections: Word Set
+    Prepositions: Word Set
+    Referent: string option
+}
 
 // ### Declarations ###
 
