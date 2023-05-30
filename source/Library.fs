@@ -81,6 +81,10 @@ and QualityRole = {
     Referent: string option
 }
 
+type Paranode = struct end // Todo
+type Function = struct end // Todo
+type Link = struct end // Todo
+
 // ### Dictionary ###
 
 // As interpreted from a set of declarations
@@ -98,10 +102,13 @@ type Dictionary = {
     
     /// Set of all @node declarations
     /// (the user is not allowed to create new words)
-    Words: Word Set
+    Nodes: Phrase Set
     
-    /// Todo: Do we need a set of all @rootparadigm declarations too or is that irrelevant?
-    /// = Are only words defined in @inflection, @auxilary and @junction allowed in a phrase, or is it being contained in a @rootparadigm enough?
+    // Even though the dictionary defines @function and @link, we don't include it here
+    // because it doesn't influence the validity of a phrase.
+
+    // Todo: Do we need a set of all @rootparadigm declarations too or is that irrelevant?
+    // = Are only words defined in @inflection, @auxilary and @junction allowed in a phrase, or is it being contained in a @rootparadigm enough?
 }
 and InflectionSet = {
     /// All @inflection declarations with 'class: verb', only to be used with ~verb
@@ -125,6 +132,27 @@ and AuxilarySet = {
     
     /// All @auxilary declarations with 'role: 8', only to be used in role 8
     Manner: Word Set
+}
+
+// ### Ontology ###
+
+// As interpreted from a set of declarations
+
+/// States all declarations made within an ontology (a group of parsed IEML text files)
+type Ontology = {
+    
+    /// Set of all @node declarations
+    /// (the user is not allowed to create new words)
+    Nodes: Phrase Set
+
+    /// Set of all @paranode declarations
+    Paranodes: Paranode Set
+    
+    /// Set of all @function declarations
+    Functions: Function Set
+
+    /// Set of all @link declarations
+    Links: Link Set
 }
 
 // ### Parser tokens for declarations ###
@@ -175,25 +203,23 @@ type NodeDeclaration = {
     Phrase: PhraseLiteral
 }
 
-// ### Aggregated Dictionary declaration ###
-
-type DictionaryDeclaration = 
-    | DictionaryDeclaration of DictionaryDeclarations Set
-and DictionaryDeclarations =
+/// This is returned from the parser and is further processed into either an abstract Dictionary or Ontology.
+type DeclarationSet = 
+    | DeclarationSet of Declarations Set
+and Declarations =
     | RootParadigm of RootParadigmDeclaration
     | Inflection of InflectionDeclaration
     | Auxilary of AuxilaryDeclaration
     | Junction of JunctionDeclaration
     | Node of NodeDeclaration
-    | Function
-    | Link
-
-// ### Aggregated Ontology declaration ###
-
-type OntologyDeclaration = 
-    | OntologyDeclaration of OntologyDeclarations Set
-and OntologyDeclarations =
-    | Node of NodeDeclaration
     | Paranode
     | Function
     | Link
+
+// ### Interpretations of dictionary and ontology ###
+
+let interpretDictionary : DeclarationSet -> Dictionary = 
+    failwith "Not implemented"
+
+let interpretOntology : DeclarationSet -> Ontology = 
+    failwith "Not implemented"
