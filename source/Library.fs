@@ -4,7 +4,7 @@
 
 type Primitive = E | U | A | S | B | T
 
-// ### Full Words ###
+// ### Words ###
 
 type Word<'PreviousLayerWord> = {
     Substance: 'PreviousLayerWord
@@ -43,6 +43,7 @@ type Concept =
     | Word of Word
     | Phrase of Phrase
 
+/// A parsed @node gets serialized into this abstract representation of the phrase
 and Phrase = {
     Accent: SemanticAccent
     Root: RootRole
@@ -119,14 +120,23 @@ and AuxilarySet = {
     Manner: Word Set
 }
 
-// ### Declarations ###
+// ### Parser tokens for declarations ###
 
 // As read from a valid IEML text file
 
-/// @rootparadigm 
+/// Describes paradigm literals in the form of '"A:.m.O:M:.-".'
+type ParadigmLiteral = ParadigmSelector of string
+
+/// Describes word literals in the form of '"A:.m.y.-".'
+type WordLiteral = WordSelector of string
+
+/// Describes phrase literals in the form of '(0 ~noun #"E:").'
+type PhraseLiteral = PhraseLiteral of string
+
+/// @rootparadigm
 type RootParadigmDeclaration = {
     Type: RootParadigmType
-    Domain: Paradigm
+    Paradigm: ParadigmLiteral
 }
 and RootParadigmType =
     | Category
@@ -137,25 +147,25 @@ and RootParadigmType =
 /// @inflection
 type InflectionDeclaration = {
     Class: InflectionDeclarationClass
-    Node: Word
+    Word: WordLiteral
 }
 and InflectionDeclarationClass = Verb | Noun
 
 /// @auxilary
 type AuxilaryDeclaration = {
     Role: AuxilaryDeclarationRole
-    Node: Word
+    Word: WordLiteral
 }
-and AuxilaryDeclarationRole = Causation | Time | Place | Intention | Manner
+and AuxilaryDeclarationRole = Casuality | Time | Place | Intention | Manner
 
 /// @junction
 type JunctionDeclaration = {
-    Node: Word
+    Word: WordLiteral
 }
 
 /// @node
 type NodeDeclaration = {
-    Phrase: Phrase
+    Phrase: PhraseLiteral
 }
 
 type Declarations =
