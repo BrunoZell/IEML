@@ -1,10 +1,10 @@
 ﻿module IEML
 
-// ### Primitives ###
+// ### Semantic Primitives ###
 
 type Primitive = E | U | A | S | B | T
 
-// ### Words ###
+// ### Full Words ###
 
 type Word<'PreviousLayerWord> = {
     Substance: 'PreviousLayerWord
@@ -49,14 +49,14 @@ and Phrase = {
     Initiator: ActorRole
     Interactant: ActorRole
     Recipient: ActorRole
-    Cause: QualityRole
+    Causality: QualityRole
     Time: QualityRole
     Place: QualityRole
-    Intentions: QualityRole
+    Intention: QualityRole
     Manner: QualityRole
 }
 
-and SemanticAccent = Root | Initiator | Interactant | Recipient | Cause | Time | Place | Intention | Manner
+and SemanticAccent = Root | Initiator | Interactant | Recipient | Causality | Time | Place | Intention | Manner
 
 /// For phrase role: 0 root
 and RootRole = {
@@ -72,7 +72,7 @@ and ActorRole = {
     Referent: string option
 }
 
-/// For phrase roles: 4 cause, 5 time, 6 place, 7 intention, 8 manner
+/// For phrase roles: 4 causality, 5 time, 6 place, 7 intention, 8 manner
 and QualityRole = {
     Concept: Concept
     Inflections: Word Set
